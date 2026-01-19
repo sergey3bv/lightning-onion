@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"errors"
 	"fmt"
+	"slices"
 
 	"github.com/aead/chacha20"
 	"github.com/btcsuite/btcd/btcec/v2"
@@ -213,7 +214,7 @@ func chacha20polyEncrypt(key, plainTxt []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	return aead.Seal(plainTxt[:0], chaChaPolyZeroNonce[:], plainTxt, nil),
+	return aead.Seal(slices.Clone(plainTxt)[:0], chaChaPolyZeroNonce[:], plainTxt, nil),
 		nil
 }
 
